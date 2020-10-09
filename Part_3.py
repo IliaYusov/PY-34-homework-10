@@ -18,17 +18,22 @@ def get_page(page):
     return r
 
 
-questions_dict = {}
-num = 0
-has_more = True
-while has_more:
-    num += 1
-    response = get_page(num)
-    if 'error_id' in response.json():
-        print(response.json()['error_message'])
-        break
-    has_more = response.json()['has_more']
-    for item in response.json()['items']:
-        questions_dict[item['title']] = item['link']
+def main():
+    questions_dict = {}
+    num = 0
+    has_more = True
+    while has_more:
+        num += 1
+        response = get_page(num)
+        if 'error_id' in response.json():
+            print(response.json()['error_message'])
+            break
+        has_more = response.json()['has_more']
+        for item in response.json()['items']:
+            questions_dict[item['title']] = item['link']
+    print(f'We have got {len(questions_dict)} questions')
+    return questions_dict
 
-print(len(questions_dict))
+
+if __name__ == '__main__':
+    main()
